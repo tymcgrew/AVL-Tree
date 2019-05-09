@@ -83,7 +83,7 @@ public interface BinarySearchTreeInterface<K, T> {
      * 
      * @throws NoSuchElementException if the tree is empty
      */
-    public void deleteMin();
+    public void removeMin();
     
 
     /**
@@ -91,7 +91,7 @@ public interface BinarySearchTreeInterface<K, T> {
      * 
      * @throws NoSuchElementException if the tree is empty
      */
-    public void deleteMax();
+    public void removeMax();
     
 
     /**
@@ -100,7 +100,7 @@ public interface BinarySearchTreeInterface<K, T> {
      * @return the smallest key in the tree
      * @throws NoSuchElementException if the tree is empty
      */
-    public T min();
+    public K min();
 
     
     /**
@@ -109,7 +109,7 @@ public interface BinarySearchTreeInterface<K, T> {
      * @return the largest key in the tree
      * @throws NoSuchElementException if the tree is empty
      */
-    public T max();
+    public K max();
 
 	
 }

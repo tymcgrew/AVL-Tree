@@ -5,7 +5,7 @@
  * @author Tyler McGrew
  * 
  * 
- * toString() that prints tree for visual inspection borrowed from:
+ * toTreeString() that prints tree for visual inspection borrowed from:
  * @author MightyPork
  * https://stackoverflow.com/a/29704252
  */
@@ -17,7 +17,6 @@ import java.util.NoSuchElementException;
 public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implements BinarySearchTreeInterface<K, T> {
 
 
-	// ================================================================================== Node
 	private class Node {
 		Node left, right;
 		K key;
@@ -46,18 +45,15 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 
 
 
-	// ================================================================================== AVLTree
-	// Variable
+
 	Node root;
 
 
-	// Constructor
 	public AVLTree() {
 		root = null;
 	}
 
 
-	// Methods
 	@Override
 	public boolean isEmpty() {
 		return root == null;
@@ -195,18 +191,18 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 		int balance = getBalance(root);
 
 		// Balance if needed
-		if (balance > 1 && getBalance(root.left) > 0)                // left-left case
+		if (balance > 1 && getBalance(root.left) >= 0)                // left-left case
 			return rotateRight(root);
 		
-		if (balance < -1 && getBalance(root.right) < 0)              // right-right case
+		if (balance < -1 && getBalance(root.right) <= 0)              // right-right case
 			return rotateLeft(root);
 		
-		if (balance > 1 && getBalance(root.left) <= 0) {              // left-right case
+		if (balance > 1 && getBalance(root.left) < 0) {              // left-right case
 			root.left = rotateLeft(root.left);
 			return rotateRight(root);
 		}
 		
-		if (balance < -1 && getBalance(root.right) >= 0) {            // right-left case;
+		if (balance < -1 && getBalance(root.right) > 0) {            // right-left case;
 			root.right = rotateRight(root.right);
 			return rotateLeft(root);
 		}
@@ -228,7 +224,7 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 			return root;
 		if (key.compareTo(root.key) < 0)
 			root.left = remove(root.left, key);
-		if (key.compareTo(root.key) > 0)
+		else if (key.compareTo(root.key) > 0)
 			root.right = remove(root.right, key);
 		
 																	// This is the node to be deleted
@@ -258,18 +254,18 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 		int balance = getBalance(root);
 		
 		// Balance if needed
-		if (balance > 1 && getBalance(root.left) > 0)                // left-left case
+		if (balance > 1 && getBalance(root.left) >= 0)                // left-left case
 			return rotateRight(root);
 		
-		if (balance < -1 && getBalance(root.right) < 0)              // right-right case
+		if (balance < -1 && getBalance(root.right) <= 0)              // right-right case
 			return rotateLeft(root);
 		
-		if (balance > 1 && getBalance(root.left) <= 0) {              // left-right case
+		if (balance > 1 && getBalance(root.left) < 0) {              // left-right case
 			root.left = rotateLeft(root.left);
 			return rotateRight(root);
 		}
 		
-		if (balance < -1 && getBalance(root.right) >= 0) {            // right-left case;
+		if (balance < -1 && getBalance(root.right) > 0) {            // right-left case;
 			root.right = rotateRight(root.right);
 			return rotateLeft(root);
 		}
@@ -285,7 +281,7 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 
 
 	@Override
-	public void deleteMin() {
+	public void removeMin() {
 		if (isEmpty())
 			throw new NoSuchElementException("Tree is empty");
 		remove(getMinKey(root));
@@ -294,7 +290,7 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 
 
 	@Override
-	public void deleteMax() {
+	public void removeMax() {
 		if (isEmpty())
 			throw new NoSuchElementException("Tree is empty");
 		remove(getMaxKey(root));
@@ -303,10 +299,10 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 
 
 	@Override
-	public T min() {
+	public K min() {
 		if (isEmpty())
 			throw new NoSuchElementException("Tree is empty");
-		return get(getMinKey(root));
+		return getMinKey(root);
 	}
 	private K getMinKey(Node root) {
 		if (root == null)
@@ -326,10 +322,10 @@ public class AVLTree<K extends Comparable<K>, T extends Comparable<T>> implement
 
 
 	@Override
-	public T max() {
+	public K max() {
 		if (isEmpty())
 			throw new NoSuchElementException("Tree is empty");
-		return get(getMaxKey(root));
+		return getMaxKey(root);
 	}
 	private K getMaxKey(Node root) {
 		if (root == null)
